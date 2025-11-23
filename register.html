@@ -8,14 +8,16 @@
     <!-- Preconnect -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- CSS (Menggunakan style yang sama dengan login agar konsisten) -->
+    <!-- CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
-        /* Shared Styles (Sama dengan Login & Index) */
+        /* Shared Styles */
         body {
             background: url('img/ltr1.webp') no-repeat center center/cover;
             background-color: #111827;
@@ -88,12 +90,11 @@
     <!-- Particles -->
     <div id="particles-container"></div>
 
-    <!-- Floating Decorative Elements (Index Style) -->
+    <!-- Floating Decorative Elements -->
     <div class="floating absolute top-20 left-20 w-12 h-12 bg-gradient-to-r from-pink-300 to-purple-400 rounded-full opacity-50 blur-sm" style="animation-delay: 0.5s;"></div>
     <div class="floating absolute bottom-20 right-32 w-16 h-16 bg-gradient-to-r from-blue-300 to-cyan-400 rounded-full opacity-60 blur-sm" style="animation-delay: 1.2s;"></div>
     <div class="floating absolute top-32 right-24 w-10 h-10 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-full opacity-40 blur-sm" style="animation-delay: 0.8s;"></div>
     
-    <!-- Corner Glows -->
     <div class="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-30 blur-[80px]"></div>
     <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-r from-blue-500 to-teal-400 rounded-full opacity-30 blur-[80px]"></div>
 
@@ -127,27 +128,22 @@
             <div class="text-center mt-6">
                 <a href="login.html" class="link-text">Sudah punya akun? Masuk</a>
             </div>
-            
-            <div id="statusMessage" class="mt-4 text-center text-sm min-h-[20px]"></div>
         </div>
     </div>
 
     <script>
-        // --- 1. Background Slideshow (Shared Logic) ---
+        // --- 1. Background & Particles (Shared) ---
         const backgrounds = ["img/ltr1.webp", "img/ltr2.webp", "img/ltr3.webp"];
         let currentBg = 0;
 
-        function changeBackground() {
+        setInterval(() => {
             currentBg = (currentBg + 1) % backgrounds.length;
             document.body.style.backgroundImage = `url('${backgrounds[currentBg]}')`;
-        }
-        setInterval(changeBackground, 10000);
+        }, 10000);
 
-        // --- 2. Particles (Shared Logic) ---
         function createParticles() {
             const container = document.getElementById('particles-container');
             const particleCount = 20;
-
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement("div");
                 const size = Math.random() * 8 + 2;
@@ -175,26 +171,28 @@
             }
         }
 
-        // --- 3. Register Logic ---
+        // --- 2. Register Logic dengan SweetAlert2 ---
         document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const statusMsg = document.getElementById('statusMessage');
             const btn = document.querySelector('button[type="submit"]');
 
             if (password.length < 8) {
-                statusMsg.textContent = "Password minimal harus 8 karakter!";
-                statusMsg.className = "text-red-400 font-bold";
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Password Kurang',
+                    text: 'Password minimal harus 8 karakter!',
+                    background: '#1f2937',
+                    color: '#fff'
+                });
                 return;
             }
 
-            statusMsg.textContent = "Mendaftarkan...";
-            statusMsg.className = "text-pink-300";
             btn.disabled = true;
-            btn.style.opacity = "0.7";
+            btn.textContent = "Mendaftarkan...";
 
             try {
                 const response = await fetch('auth.php?action=register', {
@@ -203,23 +201,44 @@
                     body: JSON.stringify({ name, email, password })
                 });
 
+                if (!response.ok) throw new Error(`Server Error: ${response.status}`);
+
                 const result = await response.json();
 
                 if (result.success) {
-                    statusMsg.textContent = result.message;
-                    statusMsg.className = "text-green-400 font-bold";
-                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: 'Akun berhasil dibuat. Silakan login!',
+                        background: '#1f2937',
+                        color: '#fff',
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(() => {
+                        window.location.href = 'login.html';
+                    });
                 } else {
-                    statusMsg.textContent = result.message;
-                    statusMsg.className = "text-red-400 font-bold";
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: result.message,
+                        background: '#1f2937',
+                        color: '#fff'
+                    });
                     btn.disabled = false;
-                    btn.style.opacity = "1";
+                    btn.textContent = "Daftar Sekarang";
                 }
             } catch (error) {
-                statusMsg.textContent = "Gagal menghubungi server.";
-                statusMsg.className = "text-red-400";
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Server',
+                    text: 'Pastikan privileges database sudah diset.',
+                    footer: '<span style="color:red">' + error.message + '</span>',
+                    background: '#1f2937',
+                    color: '#fff'
+                });
                 btn.disabled = false;
-                btn.style.opacity = "1";
+                btn.textContent = "Daftar Sekarang";
             }
         });
 

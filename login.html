@@ -14,6 +14,8 @@
     <!-- Scripts -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- SweetAlert2 untuk Pop Up Error yang Jelas -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         /* Custom Styles untuk menyamakan dengan Index */
@@ -135,14 +137,12 @@
             <div class="text-center mt-6">
                 <a href="register.html" class="link-text">Belum punya akun? Daftar disini</a>
             </div>
-            
-            <div id="statusMessage" class="mt-4 text-center text-sm min-h-[20px]"></div>
         </div>
     </div>
 
     <!-- Script Animation & Logic -->
     <script>
-        // --- 1. Background Slideshow Animation (From JS/affan.js) ---
+        // --- 1. Background Slideshow Animation ---
         const backgrounds = [
             "img/ltr1.webp",
             "img/ltr2.webp",
@@ -153,13 +153,11 @@
         function changeBackground() {
             currentBg = (currentBg + 1) % backgrounds.length;
             
-            // Efek Blur saat transisi
             gsap.to("body", {
-                backdropFilter: "blur(10px)", // Hacky way to simulate blur transition logic
+                backdropFilter: "blur(10px)",
                 duration: 0.5,
                 onComplete: () => {
                     document.body.style.backgroundImage = `url('${backgrounds[currentBg]}')`;
-                    // Remove blur
                     gsap.to("body", {
                         backdropFilter: "blur(0px)",
                         duration: 0.5
@@ -167,23 +165,20 @@
                 }
             });
         }
-        setInterval(changeBackground, 10000); // Ganti setiap 10 detik
+        setInterval(changeBackground, 10000);
 
-        // --- 2. Particles Animation (Simplified from JS/affan.js) ---
+        // --- 2. Particles Animation ---
         function createParticles() {
             const container = document.getElementById('particles-container');
             const particleCount = 20;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement("div");
-                
-                // Random properties
                 const size = Math.random() * 8 + 2;
                 const opacity = Math.random() * 0.5 + 0.1;
                 const colors = ["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"];
                 const color = colors[Math.floor(Math.random() * colors.length)];
 
-                // Styling
                 particle.style.position = "absolute";
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
@@ -195,7 +190,6 @@
                 
                 container.appendChild(particle);
 
-                // Animate with GSAP
                 gsap.to(particle, {
                     x: Math.random() * 100 - 50,
                     y: Math.random() * 100 - 50,
@@ -207,26 +201,30 @@
             }
         }
 
-        // --- 3. Login Logic ---
+        // --- 3. Login Logic dengan SweetAlert2 ---
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const statusMsg = document.getElementById('statusMessage');
             const btn = document.querySelector('button[type="submit"]');
 
+            // Validasi lokal
             if(password.length < 8) {
-                statusMsg.textContent = "Password harus 8 karakter!";
-                statusMsg.className = 'text-red-400';
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Password Kurang',
+                    text: 'Password harus minimal 8 karakter!',
+                    background: '#1f2937',
+                    color: '#fff'
+                });
                 return;
             }
 
-            statusMsg.textContent = "Memproses...";
-            statusMsg.className = 'text-blue-300';
+            // Tampilkan Loading
             btn.disabled = true;
-            btn.style.opacity = "0.7";
-
+            btn.textContent = "Memproses...";
+            
             try {
                 const response = await fetch('auth.php?action=login', {
                     method: 'POST',
@@ -234,26 +232,50 @@
                     body: JSON.stringify({ email, password })
                 });
 
+                // Cek jika error 500/koneksi
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status}`);
+                }
+
                 const result = await response.json();
 
                 if (result.success) {
-                    statusMsg.textContent = "Login Berhasil! Mengalihkan...";
-                    statusMsg.className = 'text-green-400 font-bold';
-                    localStorage.setItem('user', JSON.stringify(result.user));
-                    sessionStorage.setItem('isAuthenticated', 'true');
-                    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Berhasil!',
+                        text: 'Login sukses, mengalihkan...',
+                        background: '#1f2937',
+                        color: '#fff',
+                        timer: 1500,
+                        showConfirmButton: false
+                    }).then(() => {
+                        localStorage.setItem('user', JSON.stringify(result.user));
+                        sessionStorage.setItem('isAuthenticated', 'true');
+                        window.location.href = 'index.html';
+                    });
                 } else {
-                    statusMsg.textContent = result.message;
-                    statusMsg.className = 'text-red-400 font-bold';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal Login',
+                        text: result.message || 'Email atau password salah',
+                        background: '#1f2937',
+                        color: '#fff'
+                    });
                     btn.disabled = false;
-                    btn.style.opacity = "1";
+                    btn.textContent = "Masuk";
                 }
             } catch (error) {
                 console.error(error);
-                statusMsg.textContent = "Kesalahan koneksi server.";
-                statusMsg.className = 'text-red-400';
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Kesalahan Server',
+                    text: 'Tidak dapat terhubung ke database. Pastikan Privileges user AffannHs sudah diset untuk 192.168.1.20',
+                    footer: '<span style="color:red">Error: ' + error.message + '</span>',
+                    background: '#1f2937',
+                    color: '#fff'
+                });
                 btn.disabled = false;
-                btn.style.opacity = "1";
+                btn.textContent = "Masuk";
             }
         });
 
@@ -261,7 +283,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
             
-            // Intro Animation
             gsap.from('.login-card', { 
                 y: 30, 
                 opacity: 0, 
