@@ -1,48 +1,53 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, signOut, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+// dashboard.js - Versi PHP/MySQL Self-Hosted
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyByv4FnBvB2p321TWXeTWTIEZUPAnWhXQg",
-    authDomain: "affanhs-60fcc.firebaseapp.com",
-    projectId: "affanhs-60fcc",
-    storageBucket: "affanhs-60fcc.firebasestorage.app",
-    messagingSenderId: "982429155569",
-    appId: "1:982429155569:web:2da0cb6572ebde47d06950"
-};
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Cek apakah user sudah login
+    const userSession = localStorage.getItem('user');
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth();
-const provider = new GoogleAuthProvider();
-
-auth.onAuthStateChanged((user) => {
-    if (user) {
-        const userData = {
-            name: user.displayName,
-            email: user.email,
-            picture: user.photoURL
-        };
-        localStorage.setItem('user', JSON.stringify(userData));
-        updateUserInterface(userData);
-    } else {
+    if (!userSession) {
+        // Belum login -> Redirect ke login
         window.location.href = 'login.html';
+        return;
     }
+
+    // 2. Ambil data user
+    const userData = JSON.parse(userSession);
+
+    // 3. Update UI dengan data user
+    updateUserInterface(userData);
 });
 
 function updateUserInterface(userData) {
-    document.getElementById('userImage').src = userData.picture || '/api/placeholder/45/45';
-    document.getElementById('userName').textContent = userData.name;
-    document.getElementById('userEmail').textContent = userData.email;
-    document.getElementById('userGreeting').textContent = userData.name.split(' ')[0];
+    // Update gambar profil (gunakan default jika kosong)
+    const userImg = document.getElementById('userImage');
+    if (userImg) {
+        userImg.src = userData.picture || 'img/pp.webp';
+    }
+
+    // Update nama
+    const userName = document.getElementById('userName');
+    if (userName) {
+        userName.textContent = userData.name || 'Pengguna';
+    }
+
+    // Update email
+    const userEmail = document.getElementById('userEmail');
+    if (userEmail) {
+        userEmail.textContent = userData.email || '';
+    }
+
+    // Update greeting nama depan
+    const userGreeting = document.getElementById('userGreeting');
+    if (userGreeting && userData.name) {
+        userGreeting.textContent = userData.name.split(' ')[0];
+    }
 }
 
-window.logout = async function () {
-    try {
-        await signOut(auth);
+// Fungsi Global Logout (bisa dipanggil dari onclick HTML)
+window.logout = function () {
+    if(confirm('Yakin ingin keluar?')) {
         localStorage.removeItem('user');
+        sessionStorage.removeItem('isAuthenticated');
         window.location.href = 'login.html';
-    } catch (error) {
-        console.error('Error:', error);
-        alert('Gagal keluar. Silakan coba lagi.');
     }
 }
