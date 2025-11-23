@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Biodata Affan Haris</title>
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS (Menggunakan style yang sama dengan login agar konsisten) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <style>
+        /* Shared Styles (Sama dengan Login & Index) */
+        body {
+            background: url('img/ltr1.webp') no-repeat center center/cover;
+            background-color: #111827;
+            transition: background-image 1s ease-in-out;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+            position: absolute;
+            z-index: 1;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        #particles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: rgba(31, 41, 55, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .input-group { margin-bottom: 1rem; }
+        .input-field {
+            width: 100%;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .input-field:focus { 
+            border-color: #ec4899; 
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(236, 72, 153, 0.3);
+        }
+        .link-text { color: #f472b6; text-decoration: none; font-size: 0.9rem; }
+        .link-text:hover { text-decoration: underline; color: #fbcfe8; }
+        
+        /* Register Button Gradient (Pink/Purple) */
+        .register-button {
+            background: linear-gradient(to right, #ec4899, #8b5cf6);
+        }
+        .register-button:hover {
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.5);
+        }
+    </style>
+</head>
+
+<body class="flex flex-col items-center justify-center min-h-screen relative text-white">
+    
+    <!-- Particles -->
+    <div id="particles-container"></div>
+
+    <!-- Floating Decorative Elements (Index Style) -->
+    <div class="floating absolute top-20 left-20 w-12 h-12 bg-gradient-to-r from-pink-300 to-purple-400 rounded-full opacity-50 blur-sm" style="animation-delay: 0.5s;"></div>
+    <div class="floating absolute bottom-20 right-32 w-16 h-16 bg-gradient-to-r from-blue-300 to-cyan-400 rounded-full opacity-60 blur-sm" style="animation-delay: 1.2s;"></div>
+    <div class="floating absolute top-32 right-24 w-10 h-10 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-full opacity-40 blur-sm" style="animation-delay: 0.8s;"></div>
+    
+    <!-- Corner Glows -->
+    <div class="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full opacity-30 blur-[80px]"></div>
+    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-r from-blue-500 to-teal-400 rounded-full opacity-30 blur-[80px]"></div>
+
+    <div class="login-card p-8 rounded-xl w-full max-w-md mx-4 relative">
+        <div class="card-header text-center mb-6">
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-purple-400">Buat Akun Baru</h1>
+            <p class="text-gray-400 text-sm mt-1">Isi data diri Anda</p>
+        </div>
+        
+        <div class="login-form">
+            <form id="registerForm">
+                <div class="input-group">
+                    <label class="block text-gray-300 text-sm mb-1">Nama Lengkap</label>
+                    <input type="text" id="name" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="block text-gray-300 text-sm mb-1">Email</label>
+                    <input type="email" id="email" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label class="block text-gray-300 text-sm mb-1">Password (Min. 8 Karakter)</label>
+                    <input type="password" id="password" class="input-field" minlength="8" placeholder="********" required>
+                </div>
+                
+                <button type="submit" class="register-button mt-6 w-full py-3 rounded-xl font-medium text-white transition-all transform hover:scale-[1.02] active:scale-95 relative overflow-hidden group">
+                    <div class="relative z-10">Daftar Sekarang</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                </button>
+            </form>
+
+            <div class="text-center mt-6">
+                <a href="login.html" class="link-text">Sudah punya akun? Masuk</a>
+            </div>
+            
+            <div id="statusMessage" class="mt-4 text-center text-sm min-h-[20px]"></div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Background Slideshow (Shared Logic) ---
+        const backgrounds = ["img/ltr1.webp", "img/ltr2.webp", "img/ltr3.webp"];
+        let currentBg = 0;
+
+        function changeBackground() {
+            currentBg = (currentBg + 1) % backgrounds.length;
+            document.body.style.backgroundImage = `url('${backgrounds[currentBg]}')`;
+        }
+        setInterval(changeBackground, 10000);
+
+        // --- 2. Particles (Shared Logic) ---
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement("div");
+                const size = Math.random() * 8 + 2;
+                const colors = ["#ec4899", "#8b5cf6", "#3b82f6"];
+                
+                particle.style.position = "absolute";
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.borderRadius = "50%";
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                container.appendChild(particle);
+
+                gsap.to(particle, {
+                    x: Math.random() * 100 - 50,
+                    y: Math.random() * 100 - 50,
+                    duration: Math.random() * 20 + 10,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
+            }
+        }
+
+        // --- 3. Register Logic ---
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusMsg = document.getElementById('statusMessage');
+            const btn = document.querySelector('button[type="submit"]');
+
+            if (password.length < 8) {
+                statusMsg.textContent = "Password minimal harus 8 karakter!";
+                statusMsg.className = "text-red-400 font-bold";
+                return;
+            }
+
+            statusMsg.textContent = "Mendaftarkan...";
+            statusMsg.className = "text-pink-300";
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            try {
+                const response = await fetch('auth.php?action=register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusMsg.textContent = result.message;
+                    statusMsg.className = "text-green-400 font-bold";
+                    setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+                } else {
+                    statusMsg.textContent = result.message;
+                    statusMsg.className = "text-red-400 font-bold";
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                }
+            } catch (error) {
+                statusMsg.textContent = "Gagal menghubungi server.";
+                statusMsg.className = "text-red-400";
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            gsap.from('.login-card', { scale: 0.9, opacity: 0, duration: 0.8, ease: 'back.out(1.7)' });
+        });
+    </script>
+</body>
+</html>

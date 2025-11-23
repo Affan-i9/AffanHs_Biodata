@@ -4,351 +4,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Login ke Biodata Affan Haris Saputra">
     <title>Login - Biodata Affan Haris</title>
-    <!-- Preconnect untuk domain eksternal untuk mempercepat loading -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://cdn.tailwindcss.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://www.gstatic.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Preload aset penting -->
-    <link rel="preload" href="img/pp.webp" as="image">
-    <link rel="icon" href="img/pp.webp">
-    <!-- Font -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- CSS -->
     <link rel="stylesheet" href="css/login.css">
-    <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <!-- GSAP untuk animasi -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <!-- Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <style>
+        /* Custom Styles untuk menyamakan dengan Index */
+        body {
+            /* Default background sebelum JS load */
+            background: url('img/ltr1.webp') no-repeat center center/cover;
+            background-color: #111827; /* Fallback dark */
+            transition: background-image 1s ease-in-out;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Floating Animation dari affan.css */
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+            position: absolute;
+            z-index: 1;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Particles Container */
+        #particles-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        /* Login Card Styles */
+        .login-card {
+            background: rgba(31, 41, 55, 0.8); /* Darker semi-transparent */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .input-group { margin-bottom: 1.2rem; position: relative; }
+        .input-field {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .input-field:focus { 
+            border-color: #60a5fa; 
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.3); 
+        }
+        .input-label { display: block; margin-bottom: 5px; color: #e2e8f0; font-size: 0.9rem; }
+        .link-text { color: #60a5fa; text-decoration: none; font-size: 0.9rem; margin-top: 10px; display: inline-block; }
+        .link-text:hover { text-decoration: underline; color: #93c5fd; }
+        
+        /* Button Gradient similar to index theme */
+        .login-button {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+        }
+        .login-button:hover {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+    </style>
 </head>
 
-<body class="overflow-hidden">
-    <!-- Particles container -->
-    <div id="particles-container" class="fixed inset-0 z-0"></div>
+<body class="flex flex-col items-center justify-center min-h-screen relative text-white">
     
-    <!-- Animated background shapes -->
-    <div class="shape shape-1"></div>
-    <div class="shape shape-2"></div>
-    <div class="shape shape-3"></div>
-    <div class="shape shape-4"></div>
+    <!-- Particles Container -->
+    <div id="particles-container"></div>
+
+    <!-- Floating Decorative Elements (Sama seperti Index.html) -->
+    <div class="floating absolute top-20 left-20 w-12 h-12 bg-gradient-to-r from-pink-300 to-purple-400 rounded-full opacity-50 blur-sm" style="animation-delay: 0.5s;"></div>
+    <div class="floating absolute bottom-20 right-32 w-16 h-16 bg-gradient-to-r from-blue-300 to-cyan-400 rounded-full opacity-60 blur-sm" style="animation-delay: 1.2s;"></div>
+    <div class="floating absolute top-32 right-24 w-10 h-10 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-full opacity-40 blur-sm" style="animation-delay: 0.8s;"></div>
+    <div class="floating absolute bottom-40 left-40 w-14 h-14 bg-gradient-to-r from-green-300 to-teal-400 rounded-full opacity-50 blur-sm" style="animation-delay: 1.5s;"></div>
     
-    <!-- Main content -->
-    <div class="flex flex-col items-center justify-center min-h-screen p-5 relative z-10">
-        <!-- Login card -->
-        <div class="login-card">
-            <!-- Card header with logo -->
-            <div class="card-header">
-                <div class="logo-container">
-                    <div class="logo-animation">
-                        <img src="img/pp.webp" alt="Affan Haris" class="logo-image">
-                    </div>
-                </div>
-                <h1 class="welcome-text">Selamat Datang</h1>
-                <p class="subtitle">Masuk untuk melihat biodata Affan Haris</p>
+    <!-- Corner Glows -->
+    <div class="absolute -top-10 -left-10 w-40 h-40 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full opacity-30 blur-[80px]"></div>
+    <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-gradient-to-r from-pink-500 to-orange-500 rounded-full opacity-30 blur-[80px]"></div>
+
+    <div class="login-card p-8 rounded-xl w-full max-w-md mx-4 relative">
+        <div class="card-header text-center mb-6">
+            <div class="logo-container w-24 h-24 mx-auto mb-4 relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-spin blur-sm opacity-70"></div>
+                <img src="img/pp.webp" alt="Affan" class="relative w-full h-full object-cover rounded-full border-2 border-white/20">
             </div>
-            
-            <!-- Login form -->
-            <div class="login-form">
-                <button id="googleLogin" class="login-button">
-                    <div class="button-content">
-                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
-                        <span>Masuk dengan Google</span>
-                    </div>
-                    <div class="button-background"></div>
+            <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Selamat Datang</h1>
+            <p class="text-gray-400 text-sm mt-1">Masuk ke Dashboard Biodata</p>
+        </div>
+        
+        <div class="login-form">
+            <form id="loginForm">
+                <div class="input-group">
+                    <label class="input-label">Email</label>
+                    <input type="email" id="email" class="input-field" placeholder="email@contoh.com" required>
+                </div>
+                <div class="input-group">
+                    <label class="input-label">Password</label>
+                    <input type="password" id="password" class="input-field" placeholder="Minimal 8 karakter" minlength="8" required>
+                </div>
+                
+                <button type="submit" class="login-button mt-6 w-full py-3 rounded-xl font-medium text-white transition-all transform hover:scale-[1.02] active:scale-95 relative overflow-hidden group">
+                    <div class="relative z-10">Masuk</div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </button>
-                
-                <!-- Loading animation -->
-                <div class="loading-container">
-                    <div id="loading" class="loading-spinner"></div>
-                </div>
-                
-                <!-- Status message -->
-                <div id="statusMessage" class="status-message"></div>
+            </form>
+
+            <div class="text-center mt-6">
+                <a href="register.html" class="link-text">Belum punya akun? Daftar disini</a>
             </div>
             
-            <!-- Card footer -->
-            <div class="card-footer">
-                <p class="footer-text">Dibuat dengan <i class="fas fa-heart pulse-heart"></i> oleh Affan Haris</p>
-            </div>
+            <div id="statusMessage" class="mt-4 text-center text-sm min-h-[20px]"></div>
         </div>
     </div>
-    
-    <!-- Theme toggle -->
-    <button id="themeToggle" class="theme-toggle" aria-label="Ubah tema">
-        <i class="fas fa-sun light-icon"></i>
-        <i class="fas fa-moon dark-icon"></i>
-    </button>
-    
-    <!-- Credit footer -->
-    <div class="credit">
-        <p>Login By AffanHs - Background by Davix</p>
-    </div>
 
-    <!-- Scripts -->
-    <script src="JS/login.js" defer></script>
-    
-    <!-- GSAP Animation Enhancement -->
+    <!-- Script Animation & Logic -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Animasi elemen dengan GSAP untuk transisi yang lebih halus
-            gsap.from('.login-card', {
-                y: 30,
-                opacity: 0,
-                duration: 1.2,
-                ease: 'power3.out'
-            });
+        // --- 1. Background Slideshow Animation (From JS/affan.js) ---
+        const backgrounds = [
+            "img/ltr1.webp",
+            "img/ltr2.webp",
+            "img/ltr3.webp"
+        ];
+        let currentBg = 0;
+
+        function changeBackground() {
+            currentBg = (currentBg + 1) % backgrounds.length;
             
-            gsap.from('.logo-container', {
-                scale: 0.8,
-                opacity: 0,
-                duration: 1,
-                delay: 0.3,
-                ease: 'back.out(1.7)'
-            });
-            
-            gsap.from('.welcome-text, .subtitle', {
-                y: 20,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                delay: 0.5,
-                ease: 'power2.out'
-            });
-            
-            gsap.from('.login-button', {
-                y: 20,
-                opacity: 0,
-                duration: 0.8,
-                delay: 0.8,
-                ease: 'power2.out'
-            });
-            
-            gsap.from('.theme-toggle, .credit', {
-                opacity: 0,
-                duration: 1,
-                delay: 1.2,
-                ease: 'power2.out'
-            });
-            
-            // Perbaikan untuk masalah zoom pada mode terang
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.addEventListener('click', () => {
-                // Gunakan GSAP untuk transisi tema yang lebih halus
-                if (document.body.classList.contains('dark-theme')) {
-                    // Transisi ke mode terang
-                    gsap.to('.login-card', {
-                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
-                        boxShadow: '0 8px 32px rgba(31, 38, 135, 0.2)',
-                        duration: 0.5,
-                        ease: 'power2.inOut'
-                    });
-                    
-                    // Pastikan background tetap pada ukuran yang benar
-                    gsap.to('body', {
-                        backgroundSize: '400% 400%',
-                        backgroundAttachment: 'fixed',
-                        duration: 0.5
-                    });
-                } else {
-                    // Transisi ke mode gelap
-                    gsap.to('.login-card', {
-                        backgroundColor: 'rgba(15, 23, 42, 0.75)',
-                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-                        duration: 0.5,
-                        ease: 'power2.inOut'
-                    });
-                    
-                    // Pastikan background tetap pada ukuran yang benar
-                    gsap.to('body', {
-                        backgroundSize: '400% 400%',
-                        backgroundAttachment: 'fixed',
+            // Efek Blur saat transisi
+            gsap.to("body", {
+                backdropFilter: "blur(10px)", // Hacky way to simulate blur transition logic
+                duration: 0.5,
+                onComplete: () => {
+                    document.body.style.backgroundImage = `url('${backgrounds[currentBg]}')`;
+                    // Remove blur
+                    gsap.to("body", {
+                        backdropFilter: "blur(0px)",
                         duration: 0.5
                     });
                 }
             });
-        });
-    </script>
-    
-    <!-- Particles animation script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const particlesContainer = document.getElementById('particles-container');
-            const particleCount = 50;
-            
-            // Create particles
+        }
+        setInterval(changeBackground, 10000); // Ganti setiap 10 detik
+
+        // --- 2. Particles Animation (Simplified from JS/affan.js) ---
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 20;
+
             for (let i = 0; i < particleCount; i++) {
-                createParticle(particlesContainer);
+                const particle = document.createElement("div");
+                
+                // Random properties
+                const size = Math.random() * 8 + 2;
+                const opacity = Math.random() * 0.5 + 0.1;
+                const colors = ["#3b82f6", "#8b5cf6", "#ec4899", "#06b6d4"];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                // Styling
+                particle.style.position = "absolute";
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.borderRadius = "50%";
+                particle.style.backgroundColor = color;
+                particle.style.opacity = opacity;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                container.appendChild(particle);
+
+                // Animate with GSAP
+                gsap.to(particle, {
+                    x: Math.random() * 100 - 50,
+                    y: Math.random() * 100 - 50,
+                    duration: Math.random() * 20 + 10,
+                    repeat: -1,
+                    yoyo: true,
+                    ease: "sine.inOut"
+                });
             }
+        }
+
+        // --- 3. Login Logic ---
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            // Theme toggle functionality
-            const themeToggle = document.getElementById('themeToggle');
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('dark-theme');
-                localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const statusMsg = document.getElementById('statusMessage');
+            const btn = document.querySelector('button[type="submit"]');
+
+            if(password.length < 8) {
+                statusMsg.textContent = "Password harus 8 karakter!";
+                statusMsg.className = 'text-red-400';
+                return;
+            }
+
+            statusMsg.textContent = "Memproses...";
+            statusMsg.className = 'text-blue-300';
+            btn.disabled = true;
+            btn.style.opacity = "0.7";
+
+            try {
+                const response = await fetch('auth.php?action=login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusMsg.textContent = "Login Berhasil! Mengalihkan...";
+                    statusMsg.className = 'text-green-400 font-bold';
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    sessionStorage.setItem('isAuthenticated', 'true');
+                    setTimeout(() => { window.location.href = 'index.html'; }, 1000);
+                } else {
+                    statusMsg.textContent = result.message;
+                    statusMsg.className = 'text-red-400 font-bold';
+                    btn.disabled = false;
+                    btn.style.opacity = "1";
+                }
+            } catch (error) {
+                console.error(error);
+                statusMsg.textContent = "Kesalahan koneksi server.";
+                statusMsg.className = 'text-red-400';
+                btn.disabled = false;
+                btn.style.opacity = "1";
+            }
+        });
+
+        // Initialize Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            
+            // Intro Animation
+            gsap.from('.login-card', { 
+                y: 30, 
+                opacity: 0, 
+                duration: 1.2, 
+                ease: 'power3.out' 
             });
             
-            // Check saved theme
-            if (localStorage.getItem('theme') === 'dark') {
-                document.body.classList.add('dark-theme');
-            }
-            
-            // Page transition animation
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.8s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
-        
-        // Create a single particle
-        function createParticle(container) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            // Random properties
-            const size = Math.random() * 5 + 1;
-            const posX = Math.random() * 100;
-            const posY = Math.random() * 100;
-            const duration = Math.random() * 20 + 10;
-            const delay = Math.random() * 5;
-            
-            // Apply styles
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${posX}%`;
-            particle.style.top = `${posY}%`;
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `${delay}s`;
-            
-            container.appendChild(particle);
-        }
-    </script>
-    
-    <!-- Firebase authentication -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-analytics.js";
-
-        // Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyByv4FnBvB2p321TWXeTWTIEZUPAnWhXQg",
-            authDomain: "affanhs-60fcc.firebaseapp.com",
-            projectId: "affanhs-60fcc",
-            storageBucket: "affanhs-60fcc.firebasestorage.app",
-            messagingSenderId: "982429155569",
-            appId: "1:982429155569:web:2da0cb6572ebde47d06950"
-        };
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-
-        // Button ripple effect
-        function createRipple(event) {
-            const button = event.currentTarget;
-            const ripple = document.createElement('span');
-            const diameter = Math.max(button.clientWidth, button.clientHeight);
-            const radius = diameter / 2;
-
-            ripple.style.width = ripple.style.height = `${diameter}px`;
-            ripple.style.left = `${event.clientX - button.offsetLeft - radius}px`;
-            ripple.style.top = `${event.clientY - button.offsetTop - radius}px`;
-            ripple.classList.add('ripple');
-
-            const rippleContainer = button.getElementsByClassName('ripple')[0];
-            if (rippleContainer) {
-                rippleContainer.remove();
-            }
-
-            button.appendChild(ripple);
-        }
-
-        // Authentication handling
-        const loginButton = document.getElementById('googleLogin');
-        const loading = document.getElementById('loading');
-        const statusMessage = document.getElementById('statusMessage');
-        
-        loginButton.addEventListener('click', createRipple);
-
-        // Check if user is already logged in
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                const userData = {
-                    name: user.displayName,
-                    email: user.email,
-                    picture: user.photoURL,
-                    uid: user.uid,
-                    lastLogin: new Date().toISOString()
-                };
-
-                localStorage.setItem('user', JSON.stringify(userData));
-                sessionStorage.setItem('isAuthenticated', 'true');
-
-                // Show success message
-                statusMessage.textContent = 'Login berhasil! Mengalihkan...';
-                statusMessage.classList.add('success');
-                
-                // Redirect with animation
-                setTimeout(() => {
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 800);
-                }, 1000);
-            }
-        });
-
-        // Login button click handler
-        loginButton.addEventListener('click', async () => {
-            try {
-                loading.style.display = 'block';
-                loginButton.disabled = true;
-                loginButton.classList.add('disabled');
-
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-
-                const userData = {
-                    name: user.displayName,
-                    email: user.email,
-                    picture: user.photoURL,
-                    uid: user.uid,
-                    lastLogin: new Date().toISOString()
-                };
-
-                localStorage.setItem('user', JSON.stringify(userData));
-                sessionStorage.setItem('isAuthenticated', 'true');
-
-                // Show success message
-                statusMessage.textContent = 'Login berhasil! Mengalihkan...';
-                statusMessage.classList.add('success');
-                
-                // Redirect with animation
-                setTimeout(() => {
-                    document.body.classList.add('fade-out');
-                    setTimeout(() => {
-                        window.location.href = 'index.html';
-                    }, 800);
-                }, 1000);
-
-            } catch (error) {
-                console.error('Error:', error);
-                statusMessage.textContent = 'Gagal masuk. Silakan coba lagi.';
-                statusMessage.classList.add('error');
-                loading.style.display = 'none';
-                loginButton.disabled = false;
-                loginButton.classList.remove('disabled');
-            }
+            gsap.from('.logo-container', { 
+                scale: 0, 
+                rotation: -180, 
+                duration: 1, 
+                delay: 0.3, 
+                ease: 'back.out(1.7)' 
+            });
         });
     </script>
 </body>
-
 </html>
