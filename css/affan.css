@@ -1,0 +1,522 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Disable blue overlay */
+    user-select:            none; /* Disable text selection */
+    -webkit-user-drag:      none; /* Prevent dragging */
+}
+
+.dark .card {
+    background-color: #2d3748;
+    color: white;
+}
+
+.card {
+    background-color: rgba(31, 41, 55, 0.8);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    border: 4px solid;
+    animation: borderAnimation 3s linear infinite;
+    width: 380px;
+    opacity: 1;
+    transform: scale(1);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(71, 159, 255, 0.4);
+    max-height: 150vh;
+    overflow-y: visible;
+    /* Ubah dari auto ke visible untuk menghilangkan scrollbar */
+    position: relative;
+    z-index: 10;
+}
+
+.card:before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg);
+    z-index: -1;
+    background-size: 400%;
+    animation: glowBorder 20s linear infinite;
+    filter: blur(10px);
+    opacity: 0.7;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: inherit;
+}
+
+.card:hover:before {
+    opacity: 1;
+}
+
+@keyframes glowBorder {
+    0% {
+        background-position: 0 0;
+    }
+
+    50% {
+        background-position: 400% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(71, 159, 255, 0.6);
+}
+
+.expanded {
+    width: 580px;
+}
+
+.hidden {
+    display: none;
+}
+
+body {
+    background: url('/img/ltr1.jpg') no-repeat center center/cover;
+    transition: background-image 3s ease-in-out;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    height: 100vh;
+    width: 100vw;
+}
+
+.dark body {
+    background-color: #1a202c;
+}
+
+@keyframes borderAnimation {
+    0% {
+        border-color: rgb(255, 0, 0);
+    }
+
+    20% {
+        border-color: rgb(255, 165, 0);
+    }
+
+    40% {
+        border-color: rgb(255, 255, 0);
+    }
+
+    60% {
+        border-color: rgb(0, 255, 0);
+    }
+
+    80% {
+        border-color: rgb(0, 0, 255);
+    }
+
+    100% {
+        border-color: rgb(255, 0, 255);
+    }
+}
+
+.profile-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    /* Memastikan container foto memiliki padding yang cukup */
+    padding: 4px;
+}
+
+.profile-container:before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background: conic-gradient(#ff0099, #00bfff, #00ff95, #ff0099);
+    border-radius: 50%;
+    animation: spin 4s linear infinite;
+    z-index: -1;
+}
+
+.profile-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    z-index: 2;
+    transform: scale(0.95);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+    /* Memastikan video dan gambar tidak terpotong */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Memastikan video dan gambar fallback ditampilkan dengan benar */
+.profile-content video,
+.profile-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* Menambahkan perbaikan untuk container gambar pada bagian imageContainer */
+#imageContainer img {
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    object-fit: cover;
+    /* Memastikan gambar pas dengan container */
+    border-radius: 10px;
+    /* Melengkungkan sudut gambar */
+}
+
+#imageContainer img:hover {
+    transform: scale(1.1) rotate(3deg);
+    z-index: 5;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Efek neon pada judul */
+.neon-text {
+    text-shadow: 0 0 5px rgba(0, 195, 255, 0.7),
+        0 0 10px rgba(0, 195, 255, 0.5),
+        0 0 15px rgba(0, 195, 255, 0.3);
+}
+
+/* Styling untuk tombol */
+.btn-glow {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.btn-glow:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-size: 400%;
+    filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: inherit;
+    animation: glowBorder 20s linear infinite;
+}
+
+.btn-glow:hover:before {
+    opacity: 1;
+}
+
+.btn-glow::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+    z-index: -1;
+}
+
+.btn-glow:hover::after {
+    left: 100%;
+}
+
+.btn-glow:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Styling untuk info ekstra */
+/* Perbaikan untuk info-item - menggabungkan box dan konten */
+.info-item {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    border-left: 3px solid transparent;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Menjadikan info-item sebagai container untuk teksnya */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    /* Penting untuk mencegah teks keluar dari box */
+    height: auto;
+    /* Memperbaiki tinggi */
+    transform: none;
+    /* Reset transform */
+}
+
+.info-item:hover {
+    background: rgba(59, 130, 246, 0.1);
+    border-left-color: #3b82f6;
+    transform: translateX(5px) scale(1.02);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Style untuk konten di dalam info-item */
+.info-item .flex {
+    width: 100%;
+    /* Pastikan konten mengisi seluruh lebar */
+    transform: none;
+    /* Reset transform */
+}
+
+/* Animation untuk secret message */
+@keyframes glowing {
+    0% {
+        text-shadow: 0 0 5px gold;
+    }
+
+    50% {
+        text-shadow: 0 0 20px gold, 0 0 30px yellow;
+    }
+
+    100% {
+        text-shadow: 0 0 5px gold;
+    }
+}
+
+.secret-glow {
+    animation: glowing 2s infinite;
+}
+
+/* Custom scrollbar untuk card - dihilangkan karena tidak lagi menggunakan scroll */
+/* .card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.5);
+    border-radius: 10px;
+}
+
+.card::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.7);
+} */
+
+/* Floating elements */
+.floating {
+    animation: floating 3s ease-in-out infinite;
+    position: absolute;
+}
+
+@keyframes floating {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Glass effect for date container */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.2);
+    transition: all 0.3s ease;
+}
+
+.glass-effect:hover {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 40px rgba(31, 38, 135, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Lazy loading images */
+.lazy-image {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.lazy-image[src] {
+    opacity: 1;
+}
+
+/* Theme toggle button */
+#themeToggle {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#themeToggle:hover {
+    transform: scale(1.15) rotate(15deg);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Spotify container */
+.spotify-container button {
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.spotify-container button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Particles container dengan efek parallax */
+.particles-container {
+    position: absolute;
+    will-change: transform;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Particle styling */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Image container styling */
+#imageContainer img {
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#imageContainer img:hover {
+    transform: scale(1.1) rotate(3deg);
+    z-index: 5;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+#imageContainer img:before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background: linear-gradient(45deg, #ff0099, #00bfff);
+    border-radius: inherit;
+    z-index: -1;
+}
+
+/* 3D card effect on hover */
+.card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card .card-content {
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-content {
+    transform: translateZ(0px);
+}
+
+/* Badge glow effect */
+.badge-glow {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+}
+
+.badge-glow:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(transparent, rgba(255, 255, 255, 0.3), transparent);
+    /* background: black; */
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%) rotate(30deg);
+    }
+
+    100% {
+        transform: translateX(100%) rotate(30deg);
+    }
+}
+
+/* Styling untuk tombol dashboard */
+.dashboard-btn {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: linear-gradient(45deg, #ff512f, #dd2476);
+    box-shadow: 0 4px 15px rgba(221, 36, 118, 0.4);
+}
+
+.dashboard-btn:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, #dd2476, #ff512f, #dd2476);
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-size: 200%;
+    filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    border-radius: inherit;
+    animation: gradientShift 3s linear infinite;
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.dashboard-btn:hover:before {
+    opacity: 1;
+}
+
+.dashboard-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 7px 20px rgba(221, 36, 118, 0.6);
+}
+
+

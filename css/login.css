@@ -1,0 +1,583 @@
+/* Import font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reset dan variabel */
+:root {
+    --primary-color: #4f46e5;
+    --primary-hover: #4338ca;
+    --secondary-color: #ec4899;
+    --accent-color: #8b5cf6;
+    --text-light: #f3f4f6;
+    --text-dark: #1f2937;
+    --bg-light: #f9fafb;
+    --bg-dark: #111827;
+    --card-light: rgba(255, 255, 255, 0.15);
+    --card-dark: rgba(17, 24, 39, 0.75);
+    --shadow-light: 0 10px 30px rgba(0, 0, 0, 0.2);
+    --shadow-dark: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    --border-radius: 16px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Base styles */
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    color: var(--text-light);
+    transition: var(--transition-slow);
+    background-attachment: fixed; /* Memperbaiki latar belakang agar tidak terpotong */
+}
+
+/* Dark theme */
+body.dark-theme {
+    background: linear-gradient(135deg, #1a202c, #2d3748);
+}
+
+/* Transisi tema yang lebih smooth */
+body.dark-theme, body:not(.dark-theme) {
+    transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    background-size: 400% 400% !important;
+    background-attachment: fixed !important;
+}
+
+/* Perbaikan untuk masalah zoom pada pergantian tema */
+.login-card {
+    transform: scale(1) !important;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    will-change: background-color, box-shadow;
+}
+
+/* Animated background gradient */
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Particles */
+#particles-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.particle {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    animation: float 20s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    will-change: transform; /* Optimasi performa animasi */
+}
+
+@keyframes float {
+    0% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-100px) translateX(50px); }
+    50% { transform: translateY(-50px) translateX(100px); }
+    75% { transform: translateY(50px) translateX(50px); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+/* Animated background shapes */
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.5;
+    animation: shapeMove 20s infinite alternate;
+    will-change: transform; /* Optimasi performa animasi */
+    top: 0; /* Memastikan shape tidak terpotong di bagian atas */
+}
+
+.shape-1 {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(to right, #ff6b6b, #ffa3a3);
+    top: -100px; /* Memperbaiki posisi agar tidak terpotong terlalu banyak */
+    left: -200px;
+    animation-delay: 0s;
+}
+
+.shape-2 {
+    width: 400px;
+    height: 400px;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    bottom: -150px;
+    right: -150px;
+    animation-delay: 5s;
+}
+
+.shape-3 {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(to right, #a18cd1, #fbc2eb);
+    bottom: -50px; /* Menyesuaikan posisi */
+    right: -100px;
+    animation-delay: 10s;
+}
+
+.shape-4 {
+    width: 350px;
+    height: 350px;
+    background: linear-gradient(to right, #84fab0, #8fd3f4);
+    bottom: 10%;
+    left: -100px;
+    animation-delay: 15s;
+}
+
+@keyframes shapeMove {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(25px, 25px) rotate(5deg); }
+    100% { transform: translate(50px, 50px) rotate(10deg); }
+}
+
+/* Login card */
+.login-card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    background: var(--card-light);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-light);
+    padding: 2.5rem;
+    overflow: hidden;
+    z-index: 10;
+    transform: translateY(0);
+    transition: var(--transition-slow);
+    animation: cardAppear 1s ease forwards;
+}
+
+.dark-theme .login-card {
+    background: var(--card-dark);
+    box-shadow: var(--shadow-dark);
+}
+
+@keyframes cardAppear {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.login-card:before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(20px);
+    opacity: 0;
+    animation: glowingBorder 20s linear infinite;
+    transition: opacity 0.5s ease-in-out;
+    border-radius: inherit;
+}
+
+.login-card:hover:before {
+    opacity: 0.5;
+}
+
+@keyframes glowingBorder {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+
+/* Card header */
+.card-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.5rem;
+    position: relative;
+}
+
+.logo-animation {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    padding: 5px;
+    animation: logoRotate 10s linear infinite;
+}
+
+.logo-animation:before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    background: conic-gradient(#ff0099, #00bfff, #00ff95, #ff0099);
+    border-radius: 50%;
+    animation: spin 4s linear infinite;
+    z-index: -1;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes logoRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.logo-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    animation: logoRotateReverse 10s linear infinite;
+}
+
+@keyframes logoRotateReverse {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-360deg); }
+}
+
+.welcome-text {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+    0% { text-shadow: 0 0 10px rgba(79, 172, 254, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(0, 242, 254, 0.8); }
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1rem;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s;
+    opacity: 0;
+}
+
+.dark-theme .subtitle {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Login form */
+.login-form {
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.login-button {
+    position: relative;
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    overflow: hidden;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+    animation: buttonAppear 1s ease forwards;
+    animation-delay: 0.8s;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@keyframes buttonAppear {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+.login-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+}
+
+.login-button:active {
+    transform: translateY(0);
+}
+
+.button-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.google-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.button-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, var(--accent-color), var(--primary-color));
+    opacity: 0;
+    transition: var(--transition-normal);
+    z-index: 1;
+}
+
+.login-button:hover .button-background {
+    opacity: 1;
+}
+
+/* Ripple effect */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    z-index: 1;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Loading spinner */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.loading-spinner {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Status message */
+.status-message {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    min-height: 24px;
+    transition: var(--transition-normal);
+}
+
+.status-message.success {
+    color: #10b981;
+}
+
+.status-message.error {
+    color: #ef4444;
+}
+
+/* Card footer */
+.card-footer {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1s;
+    opacity: 0;
+}
+
+.footer-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pulse-heart {
+    color: #f43f5e;
+    margin: 0 5px;
+    animation: pulse 1.5s ease infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Theme toggle */
+.theme-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100;
+    transition: var(--transition-normal);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1.2s;
+    opacity: 0;
+}
+
+.theme-toggle:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.light-icon {
+    display: block;
+    color: #fbbf24;
+    font-size: 1.5rem;
+}
+
+.dark-icon {
+    display: none;
+    color: #818cf8;
+    font-size: 1.5rem;
+}
+
+.dark-theme .light-icon {
+    display: none;
+}
+
+.dark-theme .dark-icon {
+    display: block;
+}
+
+/* Credit footer */
+.credit {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+    z-index: 50;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 1.5s;
+    opacity: 0;
+}
+
+/* Disabled state */
+.login-button.disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Page transition */
+.fade-out {
+    opacity: 0 !important;
+    transition: opacity 0.8s ease;
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+    .login-card {
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+    }
+    
+    .logo-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .welcome-text {
+        font-size: 1.75rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .theme-toggle {
+        width: 45px;
+        height: 45px;
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    .credit {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .login-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .logo-container {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-text {
+        font-size: 1.5rem;
+    }
+    
+    .login-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}

@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+}
+
+.sidebar {
+    background-color: #1e1e1e;
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    transition: all 0.3s ease;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.logo {
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #5e72e4;
+    border-bottom: 1px solid #2d2d2d;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    opacity: 1;
+}
+
+.sidebar.collapsed .logo {
+    font-size: 18px;
+    opacity: 0;
+}
+
+.nav-toggle {
+    position: absolute;
+    right: 200px;
+    top: 20px;
+    background: #5e72e4;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar.collapsed .nav-toggle {
+    right: 20px;
+}
+
+.nav-menu {
+    margin-top: 20px;
+    list-style-type: none;
+}
+
+.nav-item {
+    transition: all 0.3s ease;
+}
+
+.nav-item a {
+    color: #a0a0a0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-item a:hover {
+    background-color: #2d2d2d;
+    color: #5e72e4;
+}
+
+.nav-item.active a {
+    background-color: #2d2d2d;
+    color: #5e72e4;
+    border-left: 4px solid #5e72e4;
+}
+
+.icon {
+    margin-right: 15px;
+    font-size: 18px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.sidebar.collapsed .label {
+    display: none;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 30px;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed+.main-content {
+    margin-left: 70px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+    margin-bottom: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .label {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 70px;
+    }
+
+    .sidebar.expanded {
+        width: 250px;
+    }
+
+    .sidebar.expanded .label {
+        display: inline;
+    }
+}
+
+/* Tambahan CSS untuk profil pengguna */
+.user-profile {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #1a1a1a;
+    position: relative;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    color: white;
+}
+
+.user-name {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.user-email {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.7;
+    margin-top: 2px;
+}
+
+.logout-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: auto;
+    transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+    background-color: #555;
+}
+
+.user-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-name {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    font-size: 0.8em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: 0.7;
+}
+
+.sidebar.collapsed .user-info {
+    display: none;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
+.header-user-greeting {
+    margin-right: 15px;
+}
